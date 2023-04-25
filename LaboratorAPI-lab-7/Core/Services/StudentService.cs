@@ -74,7 +74,7 @@ namespace Core.Services
         public GradesByStudent GetGradesById(int studentId, CourseType courseType)
         {
             var studentWithGrades = unitOfWork.Students.GetByIdWithGrades(studentId, courseType);
-            
+
             var result = new GradesByStudent(studentWithGrades);
 
             return result;

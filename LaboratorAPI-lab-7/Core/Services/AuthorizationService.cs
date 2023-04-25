@@ -32,19 +32,19 @@ namespace Core.Services
              * https://www.allkeysgenerator.com/Random/Security-Encryption-Key-Generator.aspx
             */
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityKey));
+            SymmetricSecurityKey key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_securityKey));
             var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var roleClaim = new Claim("role", role);
             var idClaim = new Claim("userId", user.Id.ToString());
-            var infoClaim = new Claim("username", user.Email);
+            var infoClaim = new Claim("username", user.Username);
 
             var tokenDescriptior = new SecurityTokenDescriptor
             {
                 Issuer = "Backend",
                 Audience = "Frontend",
                 Subject = new ClaimsIdentity(new[] { roleClaim, idClaim, infoClaim }),
-                Expires = DateTime.Now.AddYears(1),
+                Expires = DateTime.Now.AddMinutes(5),
                 SigningCredentials = credentials
             };
 
