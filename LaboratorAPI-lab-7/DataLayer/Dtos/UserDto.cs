@@ -1,24 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Core.Dtos
+namespace DataLayer.Dtos
 {
-    public class RegisterDto
+    public class UserDto
     {
-        [Required, MaxLength(100)]
+        public int Id { get; set; }
         public string Username { get; set; }
-
-        [Required, MaxLength(100)]
-        public string Email { get; set; }
-
-        [Required, MaxLength(100)]
         public string Password { get; set; }
-
-        [Required]
+        public string Email { get; set; }
         public int RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 }
