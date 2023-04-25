@@ -8,21 +8,20 @@ namespace DataLayer.Repositories
     {
         private readonly AppDbContext dbContext;
 
-        public StudentsRepository(AppDbContext dbContext) : base(dbContext) 
+        public StudentsRepository(AppDbContext dbContext) : base(dbContext)
         {
             this.dbContext = dbContext;
         }
-
         public Student GetByIdWithGrades(int studentId, CourseType type)
         {
             var result = dbContext.Students
                .Select(e => new Student
                {
-                    FirstName= e.FirstName,
-                    LastName= e.LastName,
-                    Id = e.Id,
-                    ClassId= e.ClassId,
-                    Grades = e.Grades
+                   FirstName = e.FirstName,
+                   LastName = e.LastName,
+                   Id = e.Id,
+                   ClassId = e.ClassId,
+                   Grades = e.Grades
                         .Where(g => g.Course == type)
                         .OrderByDescending(g => g.Value)
                         .ToList()
@@ -57,6 +56,24 @@ namespace DataLayer.Repositories
                 .ToDictionary(e => e.ClassId, e => e.Students);
 
             return results;
+        }
+
+        public List<Student> GetStudentsWithGrades()
+        {
+            var result = dbContext.Students.Include(s => s.Grades).ToList();
+
+            return result;
+        }
+
+        public Student GetByUserId(int userId)
+        {
+
+            var result = dbContext.Students
+               .Include(s => s.Grades).ToList()
+               .FirstOrDefault(e => e.UserId == userId);
+            return result;
+
+
         }
     }
 }
